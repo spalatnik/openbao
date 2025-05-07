@@ -45,6 +45,8 @@ mkdir -p bin/
 
 # Build!
 echo "GOEXPERIMENT=${GOEXPERIMENT}"
+echo "GOFLAGS=${GOFLAGS}"
+echo "GOFIPS=${GOFIPS}"
 echo "==> Building bao..."
 ${GO_CMD} build \
     -gcflags "${GCFLAGS}" \
