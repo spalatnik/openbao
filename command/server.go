@@ -5,6 +5,7 @@ package command
 
 import (
 	"context"
+	"crypto/fips140"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
@@ -585,6 +586,12 @@ func (c *ServerCommand) runRecoveryMode() int {
 	}
 
 	defer c.cleanupGuard.Do(listenerCloseFunc)
+
+	if fips140.Enabled() {
+		fmt.Println("✅ FIPS mode is ENABLED")
+	} else {
+		fmt.Println("❌ FIPS mode is NOT enabled")
+	}
 
 	infoKeys = append(infoKeys, "version")
 	verInfo := version.GetVersion()
@@ -1276,6 +1283,12 @@ func (c *ServerCommand) Run(args []string) int {
 	}
 
 	defer c.cleanupGuard.Do(listenerCloseFunc)
+
+	if fips140.Enabled() {
+		fmt.Println("✅ FIPS mode is ENABLED")
+	} else {
+		fmt.Println("❌ FIPS mode is NOT enabled")
+	}
 
 	infoKeys = append(infoKeys, "version")
 	verInfo := version.GetVersion()
