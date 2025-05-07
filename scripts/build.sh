@@ -44,6 +44,7 @@ rm -rf pkg/*
 mkdir -p bin/
 
 # Build!
+echo "GOEXPERIMENT=${GOEXPERIMENT}"
 echo "==> Building bao..."
 ${GO_CMD} build \
     -gcflags "${GCFLAGS}" \

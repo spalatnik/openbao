@@ -1277,6 +1277,16 @@ func (c *ServerCommand) Run(args []string) int {
 
 	defer c.cleanupGuard.Do(listenerCloseFunc)
 
+	h := sha256.New()
+
+	fmt.Printf("Underlying SHA256 hash implementation: %T\n", h)
+
+	if fmt.Sprintf("%T", h) == "*boring.sha256Hash" {
+		fmt.Println("✅ BoringCrypto is ENABLED (FIPS mode active)")
+	} else {
+		fmt.Println("❌ BoringCrypto is NOT enabled (standard crypto in use)")
+	}
+
 	infoKeys = append(infoKeys, "version")
 	verInfo := version.GetVersion()
 	info["version"] = verInfo.FullVersionNumber(false)
@@ -1852,6 +1862,16 @@ func (c *ServerCommand) enableThreeNodeDevCluster(base *vault.CoreConfig, info m
 	if verInfo.Revision != "" {
 		info["version sha"] = strings.Trim(verInfo.Revision, "'")
 		infoKeys = append(infoKeys, "version sha")
+	}
+
+	h := sha256.New()
+
+	fmt.Printf("Underlying SHA256 hash implementation: %T\n", h)
+
+	if fmt.Sprintf("%T", h) == "*boring.sha256Hash" {
+		fmt.Println("✅ BoringCrypto is ENABLED (FIPS mode active)")
+	} else {
+		fmt.Println("❌ BoringCrypto is NOT enabled (standard crypto in use)")
 	}
 
 	infoKeys = append(infoKeys, "cgo")
