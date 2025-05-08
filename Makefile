@@ -21,13 +21,6 @@ ifneq ($(FDB_ENABLED), )
 	BUILD_TAGS+=foundationdb
 endif
 
-ifneq ($(FIPS_ENABLED), )
-	CGO_ENABLED=1
-	GOEXPERIMENT=systemcrypto
-	GOFIPS=1
-	GOFLAGS="-tags=requirefips"
-endif
-
 default: dev
 
 # bin generates the equivalent of releasable binaries for OpenBao
@@ -41,12 +34,7 @@ bin-plugin: prep
 # into ./bin/ as well as $GOPATH/bin
 dev: BUILD_TAGS+=testonly
 dev: prep
-	@CGO_ENABLED=$(CGO_ENABLED) \
-    $(if $(GOEXPERIMENT),GOEXPERIMENT=$(GOEXPERIMENT)) \
-    $(if $(GOFIPS),GOFIPS=$(GOFIPS)) \
-    $(if $(GOFLAGS),GOFLAGS=$(GOFLAGS)) \
-    BUILD_TAGS='$(BUILD_TAGS)' OPENBAO_DEV_BUILD=1 \
-    sh -c "'$(CURDIR)/scripts/build.sh'"
+	@CGO_ENABLED=$(CGO_ENABLED) BUILD_TAGS='$(BUILD_TAGS)' OPENBAO_DEV_BUILD=1 sh -c "'$(CURDIR)/scripts/build.sh'"
 dev-ui: BUILD_TAGS+=testonly
 dev-ui: assetcheck prep
 	@CGO_ENABLED=$(CGO_ENABLED) BUILD_TAGS='$(BUILD_TAGS) ui' OPENBAO_DEV_BUILD=1 sh -c "'$(CURDIR)/scripts/build.sh'"
