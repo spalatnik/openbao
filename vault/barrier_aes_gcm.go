@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 	"sync"
@@ -979,6 +980,8 @@ func (b *AESGCMBarrier) aeadFromKey(key []byte) (cipher.AEAD, error) {
 	}
 
 	// Create the GCM mode AEAD
+	fmt.Printf("Concrete type: %T\n", aesCipher)
+	fmt.Println("Cipher concrete type:", reflect.TypeOf(aesCipher))
 	gcm, err := cipher.NewGCMWithRandomNonce(aesCipher)
 	if err != nil {
 		fmt.Println("failed to initialize FIPS GCM mode - " + err.Error())
