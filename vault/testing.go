@@ -27,7 +27,6 @@ import (
 	"reflect"
 	"sync"
 	"sync/atomic"
-	"testing"
 	"time"
 
 	"github.com/armon/go-metrics"
