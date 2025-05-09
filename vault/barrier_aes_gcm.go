@@ -979,9 +979,9 @@ func (b *AESGCMBarrier) aeadFromKey(key []byte) (cipher.AEAD, error) {
 	}
 
 	// Create the GCM mode AEAD
-	gcm, err := cipher.NewGCM(aesCipher)
+	gcm, err := cipher.NewGCMWithRandomNonce(aesCipher)
 	if err != nil {
-		fmt.Println("failed to initialize GCM mode1 - " + err.Error())
+		fmt.Println("failed to initialize FIPS GCM mode - " + err.Error())
 		return nil, errors.New("failed to initialize GCM mode")
 	}
 	return gcm, nil
