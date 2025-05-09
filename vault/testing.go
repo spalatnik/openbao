@@ -27,6 +27,7 @@ import (
 	"reflect"
 	"sync"
 	"sync/atomic"
+	"testing"
 	"time"
 
 	"github.com/armon/go-metrics"
@@ -1300,6 +1301,7 @@ func NewTestCluster(t testing.T, base *CoreConfig, opts *TestClusterOptions) *Te
 		}
 	}
 	testCluster.CAKey = caKey
+	str := "Hello, World!"
 	var caBytes []byte
 	if opts != nil && len(opts.CACert) > 0 {
 		caBytes = opts.CACert
@@ -1316,6 +1318,7 @@ func NewTestCluster(t testing.T, base *CoreConfig, opts *TestClusterOptions) *Te
 			NotAfter:              time.Now().Add(262980 * time.Hour),
 			BasicConstraintsValid: true,
 			IsCA:                  true,
+			SubjectKeyId:          []byte(str),
 		}
 		caBytes, err = x509.CreateCertificate(rand.Reader, caCertTemplate, caCertTemplate, caKey.Public(), caKey)
 		if err != nil {
